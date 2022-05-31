@@ -1,11 +1,13 @@
 import csv
 import os
-from datetime import datetime
+import sys
 import requests as r
 from time import sleep
 from decouple import config
-from pprint import pprint
 
+# Increase recursion limit.
+
+sys.setrecursionlimit(10**6)
 # ---- CLASS DEFINITION ----
 
 
@@ -207,6 +209,4 @@ gh_api = github_api(
     auth_method="token",
 )
 if __name__ == "__main__":
-    print(gh_api.get_rate_limit(gh_api.req(query="page=1")))
-    print(gh_api.check_csv())
-    # gh_api.get_all_data(fields=gh_fields_wanted)
+    gh_api.get_all_data(fields=gh_fields_wanted)
