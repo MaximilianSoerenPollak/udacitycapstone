@@ -1,13 +1,10 @@
 import csv
 import os
-import sys
 import requests as r
 from time import sleep
 from decouple import config
 
-# Increase recursion limit.
-
-sys.setrecursionlimit(10**6)
+# Increase recursion limit. sys.setrecursionlimit(10**6)
 # ---- CLASS DEFINITION ----
 
 
@@ -119,6 +116,8 @@ class github_api(api):
         # Define all the empty lists.
         full_list = []
         for item in response_dict:
+            if item == None:
+                continue
             item_list = []
             for field in info_fields:
                 if type(field) == list:
@@ -165,7 +164,8 @@ class github_api(api):
             ]
             writer = csv.writer(f, lineterminator="\n")
             if not file_exists:
-                writer.writerow(headers) writer.writerows(full_list)
+                writer.writerow(headers)
+            writer.writerows(full_list)
 
     def remove_file(self):
         if os.path.isfile("github_api.csv"):
@@ -217,6 +217,8 @@ gh_api = github_api(
     extra_headers=github_header,
     auth_method="token",
 )
+
+
 def main():
     try:
         gh_api.get_all_data(fields=gh_fields_wanted)
@@ -225,6 +227,7 @@ def main():
         print("Sleeping 1min now. Then trying again")
         sleep(60)
         main()
+
 
 if __name__ == "__main__":
     main()
