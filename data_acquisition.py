@@ -64,7 +64,17 @@ class github_api(api):
     def get_all_data(self, **kwargs):
         first_run = kwargs.get("first_run", True)
         if first_run:
-            response = super().req(query="page=1")
+            # Checking if file excists and first run.
+            # If so we want to continue where we left of. This is what this does.
+            file_exists = os.path.isfile("github_api.csv")
+            if file_exists:
+                with open("github_api.csv", "r") as f:
+                    last_id = f.readlines()[-1].split(",")[0]
+                query = "page=1&since=" + str(last_id)
+            # If file doen't excists we start at 0.
+            else:
+                query = "page=1"
+            response = super().req(query=query)
             fields = kwargs.get("fields")
             self.get_info(response=response, fields=fields)
             next_page = self.get_next_page_query(response)
@@ -72,7 +82,7 @@ class github_api(api):
             self.get_all_data(first_run=False, next_page=next_page, fields=fields)
         else:
             q1 = kwargs.get("next_page")
-            query = "page=1" + "per_page=100" + q1
+            query = "page=1" + q1
             response = super().req(query=query)
             fields = kwargs.get("fields")
             self.get_info(response=response, fields=fields)
@@ -155,8 +165,7 @@ class github_api(api):
             ]
             writer = csv.writer(f, lineterminator="\n")
             if not file_exists:
-                writer.writerow(headers)
-            writer.writerows(full_list)
+                writer.writerow(headers) writer.writerows(full_list)
 
     def remove_file(self):
         if os.path.isfile("github_api.csv"):
@@ -208,5 +217,14 @@ gh_api = github_api(
     extra_headers=github_header,
     auth_method="token",
 )
+def main():
+    try:
+        gh_api.get_all_data(fields=gh_fields_wanted)
+    except Exception as e:
+        print(e)
+        print("Sleeping 1min now. Then trying again")
+        sleep(60)
+        main()
+
 if __name__ == "__main__":
-    gh_api.get_all_data(fields=gh_fields_wanted)
+    main()
