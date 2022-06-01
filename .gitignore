@@ -1,0 +1,5 @@
+# Virtualenviorment
+capvenv/
+
+# Enviroment Variables
+.env
