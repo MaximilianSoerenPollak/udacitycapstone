@@ -3,7 +3,7 @@ from sys import argv
 import pandas as pd
 
 # Readin: first CSV for headers in.
-df_first = pd.read_csv(("data/libcsv/lib_repo_reduced.csv"), index_col=False, nrows=1)
+df_first = pd.read_csv(("data/libcsv/lib_repo.csv"), index_col=False, nrows=1)
 headers = df_first.columns.to_list()
 
 # Should work #Pray

@@ -117,6 +117,7 @@ def create_s3bucket():
         response = s3.create_bucket(
             Bucket=bucketname, CreateBucketConfiguration=location
         )
+        set_configs("S3", "BUCKETNAME", bucketname)
         return True
     except s3.meta.client.exceptions.BucketAlreadyExists as e:
         print(
