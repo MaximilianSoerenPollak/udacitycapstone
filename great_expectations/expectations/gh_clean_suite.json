@@ -1,0 +1,72 @@
+{
+  "data_asset_type": null,
+  "expectation_suite_name": "gh_clean_suite",
+  "expectations": [
+    {
+      "expectation_type": "expect_table_columns_to_match_set",
+      "kwargs": {
+        "column_set": [
+          "id",
+          "name",
+          "full_name",
+          "owner_login",
+          "owner_id",
+          "owner_html_url",
+          "owner_type",
+          "html_url",
+          "description",
+          "fork"
+        ]
+      },
+      "meta": {}
+    },
+    {
+      "expectation_type": "expect_table_column_count_to_equal",
+      "kwargs": {
+        "value": 10
+      },
+      "meta": {}
+    },
+    {
+      "expectation_type": "expect_column_values_to_not_be_null",
+      "kwargs": {
+        "column": "full_name"
+      },
+      "meta": {}
+    },
+    {
+      "expectation_type": "expect_compound_columns_to_be_unique",
+      "kwargs": {
+        "column_list": [
+          "id",
+          "name",
+          "full_name",
+          "owner_login",
+          "owner_id",
+          "owner_html_url",
+          "owner_type",
+          "html_url",
+          "description",
+          "fork"
+        ]
+      },
+      "meta": {}
+    }
+  ],
+  "ge_cloud_id": null,
+  "meta": {
+    "citations": [
+      {
+        "batch_request": {
+          "data_asset_name": "gh_clean.csv",
+          "data_connector_name": "default_inferred_data_connector_name",
+          "datasource_name": "Github_API_Clean",
+          "limit": 1000
+        },
+        "citation_date": "2022-07-24T11:05:23.530277Z",
+        "comment": "Created suite added via CLI"
+      }
+    ],
+    "great_expectations_version": "0.15.15"
+  }
+}

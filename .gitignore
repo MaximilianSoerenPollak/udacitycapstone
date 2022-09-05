@@ -1,5 +1,17 @@
 # Virtualenviorment
 capvenv/
-
 # Enviroment Variables
 .env
+#Other stuff
+.git/
+dwh.cfg 
+__pycache__/
+
+#data that should not be uploaded.
+/data/libcsv/raw/processed/*.csv
+/data/libcsv/clean/*.csv
+/data/libcsv/raw/split_aa.csv
+/data/libcsv/lib_repo.csv
+/data/github/clean/*.csv
+/data/github/raw/*.csv
+.gitignore

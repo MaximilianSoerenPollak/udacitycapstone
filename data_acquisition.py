@@ -63,7 +63,7 @@ class github_api(api):
         if first_run:
             # Checking if file excists and first run.
             # If so we want to continue where we left of. This is what this does.
-            file_exists = os.path.isfile("github_api.csv")
+            file_exists = os.path.isfile("github_not_cleaned.csv")
             if file_exists:
                 with open("github_api.csv", "r") as f:
                     last_id = f.readlines()[-1].split(",")[0]
@@ -91,7 +91,7 @@ class github_api(api):
                 sleep(3660)
             # Checking if we have enough Rows in our CSV.
             # If this is the case, we terminate the programm.
-            if self.check_csv() >= 1000000:
+            if self.check_csv() >= 1010000:
                 print("CSV is bigger than 1Mil. rows.")
                 os._exit(0)
             sleep(0.01)
@@ -131,7 +131,7 @@ class github_api(api):
                     except KeyError:
                         item_list.append("Null")
             full_list.append(item_list)
-        file_exists = os.path.isfile("github_api.csv")
+        file_exists = os.path.isfile("github_not_cleaned.csv")
         with open("github_api.csv", "a") as f:
             headers = [
                 "id",
@@ -168,8 +168,8 @@ class github_api(api):
             writer.writerows(full_list)
 
     def remove_file(self):
-        if os.path.isfile("github_api.csv"):
-            os.remove("github_api.csv")
+        if os.path.isfile("github_not_clean.csv"):
+            os.remove("github_not_clean.csv")
 
 
 # ---- CONFIGS ----
@@ -185,7 +185,10 @@ gh_fields_wanted = [
     "full_name",
     ["owner", "login"],
     ["owner", "id"],
-    ["owner", "login"],
+    [
+        "owner",
+        "login",
+    ],  # This is here twice cause I messed up. Gets cleaned in the cleanup file.
     ["owner", "html_url"],
     ["owner", "type"],
     "html_url",
